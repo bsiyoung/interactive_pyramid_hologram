@@ -4,9 +4,17 @@
 #include <stdbool.h>
 #include <pthread.h>
 #include <wiringPi.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <string.h>
+
+#include "value_define.h"
 
 int mode = 0;
 int model_no = 0;
+
+//메시지 큐 식별자
+int msg_q;
 
 float getSonicSens() {
     float i = 0;
@@ -26,8 +34,24 @@ float getBluetooth() {
     return i;
 }
 
-bool sendData(int type, float value) {
+bool sendData(float data1, float data2) {
     //value를 다른프로세스로 보냄
+    msg_q = msgget((key_t)MSG_Q_KEY, IPC_CREAT | 0666);
+    if (msg_q == -1) {
+        perror("msgget()");
+        return -1;
+    }
+    struct DataType dataType;
+    memset(&dataType, 0, sizeof(dataType));
+    dataType.type = SendType_Data;
+    dataType.data1 = data1;
+    dataType.data2 = data2;
+
+    if (msgsnd(msg_q, &dataType, sizeof(dataType) - sizeof(long), IPC_NOWAIT) < 0) {
+        perror("msgsnd()");
+    }
+
+    sleep(1);
     return true;
 }
 
@@ -35,11 +59,17 @@ void *func_thread() {
     float data1, data2;
     while(mode != -1) {
         if(mode == 0) {
-            data1 = getSonicSens();
-            data2 = getRotateSens();
+            //data1 = getSonicSens();
+            //data2 = getRotateSens();
+            data1 = 0.1;
+            data2 = 0.5;
+            sendData(data1, data2);
         }
         else if(mode == 1) {
             //data 1? 2? = getBluetooth();
+            data1 = 0.1;
+            data2 = 0.5;
+            sendData(data1, data2);
         }
 
         //sendData(0, data1); sendData(1, data2);
@@ -57,6 +87,14 @@ int main() {
 
     pthread_t thread;
     pthread_create(&thread, NULL, func_thread, NULL);
+
+    msg_q = msgget((key_t)MSG_Q_KEY, IPC_CREAT | 0666);
+    if (msg_q == -1) {
+        perror("msgget()");
+        return -1;
+    }
+
+    struct ModelType modelType;
     
     char ch;
     while(ch != 'q') {
@@ -79,7 +117,17 @@ int main() {
         else if ('0' <= ch && ch <= '9') {
             model_no = ch - '0';
             // Send Model No To Rendering Program 
+            memset(&modelType, 0, sizeof(modelType));
+            modelType.type = SendType_Model;
+            modelType.model = model_no;
+            if (msgsnd(msg_q, &modelType, sizeof(modelType) - sizeof(long), IPC_NOWAIT) < 0) {
+                perror("msgsnd()");
+            }
+
+            sleep(1);
         }
+
+        sleep(1);
     }
 
     pthread_join(thread, NULL);
