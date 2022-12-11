@@ -59,16 +59,12 @@ void *func_thread() {
     float data1, data2;
     while(mode != -1) {
         if(mode == 0) {
-            //data1 = getSonicSens();
-            //data2 = getRotateSens();
-            data1 = 0.1;
-            data2 = 0.5;
+            data1 = getSonicSens();
+            data2 = getRotateSens();
             sendData(data1, data2);
         }
         else if(mode == 1) {
             //data 1? 2? = getBluetooth();
-            data1 = 0.1;
-            data2 = 0.5;
             sendData(data1, data2);
         }
 
@@ -123,7 +119,6 @@ int main() {
             if (msgsnd(msg_q, &modelType, sizeof(modelType) - sizeof(long), IPC_NOWAIT) < 0) {
                 perror("msgsnd()");
             }
-
             sleep(1);
         }
 
