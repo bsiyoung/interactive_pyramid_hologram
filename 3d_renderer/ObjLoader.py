@@ -1,4 +1,9 @@
+from OpenGL.GL import *
+
+from PIL import Image
 import numpy as np
+
+import params
 
 class ObjLoader:
     def __init__(self):
@@ -54,20 +59,43 @@ class ObjLoader:
         self.model = np.array(self.model, dtype='float32')
 
 
+def load_object(obj_name):
+    path = params.model_path + '/' + obj_name + '/'
+    obj_path = path + 'model.obj'
+    texture_path = path + 'texture.jpg'
+    
+    obj = ObjLoader()
+    obj.load_model(obj_path)
 
+    texture_offset = len(obj.vertex_index)*12
 
+    VBO = glGenBuffers(1)
+    glBindBuffer(GL_ARRAY_BUFFER, VBO)
+    glBufferData(GL_ARRAY_BUFFER, obj.model.itemsize * len(obj.model), obj.model, GL_STATIC_DRAW)
 
+    #Position
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, obj.model.itemsize * 3, ctypes.c_void_p(0))
+    glEnableVertexAttribArray(0)
 
+    #Texture
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, obj.model.itemsize * 2, ctypes.c_void_p(texture_offset))
+    glEnableVertexAttribArray(1)
 
+    texture = glGenTextures(1)
+    glBindTexture(GL_TEXTURE_2D, texture)
 
+    # Set Texture Params
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
+    # Load Texture Image
+    image = Image.open(texture_path)
+    flipped_image = image.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
+    img_data = np.array(list(flipped_image.getdata()), np.uint8)
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.width, image.height, 0, GL_RGB, GL_UNSIGNED_BYTE, img_data)
 
+    glEnable(GL_TEXTURE_2D)
 
-
-
-
-
-
-
-
-
+    return obj, texture

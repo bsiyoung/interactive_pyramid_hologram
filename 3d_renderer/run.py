@@ -1,16 +1,30 @@
 import glfw
 from OpenGL.GL import *
+
 import ShaderLoader
-import numpy
+from ObjLoader import load_object
+
 import pyrr
-from PIL import Image
-from ObjLoader import *
-from screeninfo import get_monitors
 import math
+import time
+
+from screeninfo import get_monitors
+
+import params
 
 
-monitor = get_monitors()[0]
 running = True
+
+# Window Size
+w_width = 1920
+w_height = 1080
+
+# Model Status
+model_no = 0
+model_zoom = 0.0
+model_rotate = [0.0, 0.0, 0.0]
+
+# Bias
 
 
 def window_resize(window, width, height):
@@ -23,48 +37,12 @@ def key_event(window, key, scancode, action, mods):
         running = False
 
 
-def load_object(obj_path, texture_path):
-    obj = ObjLoader()
-    obj.load_model(obj_path)
-
-    texture_offset = len(obj.vertex_index)*12
-
-    VBO = glGenBuffers(1)
-    glBindBuffer(GL_ARRAY_BUFFER, VBO)
-    glBufferData(GL_ARRAY_BUFFER, obj.model.itemsize * len(obj.model), obj.model, GL_STATIC_DRAW)
-
-    #Position
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, obj.model.itemsize * 3, ctypes.c_void_p(0))
-    glEnableVertexAttribArray(0)
-
-    #Texture
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, obj.model.itemsize * 2, ctypes.c_void_p(texture_offset))
-    glEnableVertexAttribArray(1)
-
-    texture = glGenTextures(1)
-    glBindTexture(GL_TEXTURE_2D, texture)
-
-    # Set Texture Params
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-
-    # Load Texture Image
-    image = Image.open(texture_path)
-    flipped_image = image.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
-    img_data = numpy.array(list(flipped_image.getdata()), numpy.uint8)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.width, image.height, 0, GL_RGB, GL_UNSIGNED_BYTE, img_data)
-
-    glEnable(GL_TEXTURE_2D)
-
-    return obj, texture
-
-
-
 def draw_model(view_pos, obj_pos, obj_rotate, obj, shader):
         view = pyrr.matrix44.create_from_translation(pyrr.Vector3(view_pos))
-        projection = pyrr.matrix44.create_perspective_projection_matrix(65.0, monitor.width / monitor.height, 0.1, 100.0)
+        projection = pyrr.matrix44.create_perspective_projection_matrix(params.view_angle,
+                                                                        w_width / w_height,
+                                                                        params.view_min_depth,
+                                                                        params.view_max_depth)
         model = pyrr.matrix44.create_from_translation(pyrr.Vector3(obj_pos))
 
         view_loc = glGetUniformLocation(shader, "view")
@@ -87,38 +65,62 @@ def draw_model(view_pos, obj_pos, obj_rotate, obj, shader):
 
 
 def main():
-    # initialize glfw
+    # Init Window
     if not glfw.init():
         return
 
-    window = glfw.create_window(monitor.width, monitor.height, "Interactive Pyramid Hologram", glfw.get_primary_monitor(), None)
+    monitor = get_monitors()[0]
+    fullscreen = None
+    global w_width, w_height
+    if params.full_screen is True:
+        w_width = monitor.width
+        w_height = monitor.height
+        fullscreen = glfw.get_primary_monitor()
+    else:
+        w_width = params.window_size[0] if params.window_size[0] is not None else monitor.width
+        w_height = params.window_size[1] if params.window_size[1] is not None else monitor.height
+    
+    print(w_width, w_height)
+    
+    window = glfw.create_window(w_width, w_height, params.title, fullscreen, None)
 
     if not window:
         glfw.terminate()
         return
 
     glfw.make_context_current(window)
-    glfw.set_window_size_callback(window, window_resize)
+    # glfw.set_window_size_callback(window, window_resize)
+    
+    glfw.set_input_mode(window, glfw.STICKY_KEYS, GL_TRUE)
+    glfw.set_key_callback(window, key_event)
 
-    shader = ShaderLoader.compile_shader("shaders/vert.vs", "shaders/frag.fs")
+    # Compile Shader
+    shader = ShaderLoader.compile_shader(params.vert_shader, params.frag_shader)
     glUseProgram(shader)
 
-    obj, texture = load_object("res/cube.obj", "res/cube_texture.jpg")
-
+    # Init GL
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glEnable(GL_DEPTH_TEST)
 
-    glfw.set_input_mode(window, glfw.STICKY_KEYS, GL_TRUE)
-    glfw.set_key_callback(window, key_event)
+    obj, texture = load_object(params.models[model_no])
 
     global running
     while running is True:
         glfw.poll_events()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
-        draw_model([0, 0, -5], [0, 0, 0], [0, 0, 0], obj, shader)
+        # Center
+        draw_model([0, 0, -8], [0, 3, 0], [0, 0, 0], obj, shader)
+        
+        # Left
+        draw_model([0, 0, -8], [-5, -2.5, 0], [0, 3.14159265 / 2 + 0.1 * glfw.get_time(), 0], obj, shader)
+        
+        # Right
+        draw_model([0, 0, -8], [5, -2.5, 0], [0, 3.14159265 / 2 + 0.1 * glfw.get_time(), 0], obj, shader)
 
         glfw.swap_buffers(window)
+        time.sleep(1 / 50)
+        
 
     glfw.terminate()
 
