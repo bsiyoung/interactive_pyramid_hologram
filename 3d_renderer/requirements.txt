@@ -1,0 +1,19 @@
+PyOpenGL
+PyOpenGL_accelerate
+glfw
+numpy
+pyrr
+pillow
+screeninfo
+
+apt
+glfw error
+libglfw3
+libglfw3-dev
+
+numpy error
+libatlas-base-dev
+
+
+GLSL 3.30 Is Not Supported
+export MESA_GL_VERSION_OVERRIDE=3.3
