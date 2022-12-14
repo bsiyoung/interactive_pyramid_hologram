@@ -5,6 +5,7 @@ numpy
 pyrr
 pillow
 screeninfo
+posix_ipc
 
 apt
 glfw error

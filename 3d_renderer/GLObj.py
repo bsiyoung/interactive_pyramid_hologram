@@ -2,6 +2,7 @@ from OpenGL.GL import *
 
 from PIL import Image
 import numpy as np
+import pyrr
 
 import params
 
@@ -91,11 +92,47 @@ def load_object(obj_name):
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
     # Load Texture Image
-    image = Image.open(texture_path)
-    flipped_image = image.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
-    img_data = np.array(list(flipped_image.getdata()), np.uint8)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.width, image.height, 0, GL_RGB, GL_UNSIGNED_BYTE, img_data)
+    try:
+        image = Image.open(texture_path)
+        flipped_image = image.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
+        img_data = np.array(list(flipped_image.getdata()), np.uint8)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.width, image.height, 0, GL_RGB, GL_UNSIGNED_BYTE, img_data)
 
-    glEnable(GL_TEXTURE_2D)
+        glEnable(GL_TEXTURE_2D)
+    except Exception as e:
+        return obj, None
 
     return obj, texture
+
+
+def draw_obj(view_pos, rot_bias, obj_rotate, pov, obj, shader):
+        view = pyrr.matrix44.create_from_translation(pyrr.Vector3(view_pos))
+        projection = pyrr.matrix44.create_perspective_projection_matrix(params.view_angle,
+                                                                        pov,
+                                                                        params.view_min_depth,
+                                                                        params.view_max_depth)
+        obj_pos = [0, 0, 0]
+        model = pyrr.matrix44.create_from_translation(pyrr.Vector3(obj_pos))
+
+        view_loc = glGetUniformLocation(shader, "view")
+        proj_loc = glGetUniformLocation(shader, "projection")
+        model_loc = glGetUniformLocation(shader, "model")
+
+        glUniformMatrix4fv(view_loc, 1, GL_FALSE, view)
+        glUniformMatrix4fv(proj_loc, 1, GL_FALSE, projection)
+        glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
+        
+        b_rot_x = pyrr.Matrix44.from_x_rotation(rot_bias[0])
+        b_rot_y = pyrr.Matrix44.from_y_rotation(rot_bias[1])
+        b_rot_z = pyrr.Matrix44.from_z_rotation(rot_bias[2])
+        b_rot = b_rot_x * b_rot_y * b_rot_z
+
+        rot_x = pyrr.Matrix44.from_x_rotation(obj_rotate[0])
+        rot_y = pyrr.Matrix44.from_y_rotation(obj_rotate[1])
+        rot_z = pyrr.Matrix44.from_z_rotation(obj_rotate[2])
+        rot = rot_x * rot_y * rot_z
+
+        transformLoc = glGetUniformLocation(shader, "transform")
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, b_rot * rot)
+
+        glDrawArrays(GL_TRIANGLES, 0, len(obj.vertex_index))

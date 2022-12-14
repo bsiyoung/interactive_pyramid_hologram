@@ -1,4 +1,4 @@
-#version 330
+#version 140
 in vec2 newTexture;
 
 out vec4 outColor;
