@@ -8,8 +8,11 @@
 #include <sys/msg.h>
 #include <string.h>
 #include <math.h>
+#include <mqueue.h>
 #include <wiringPiSPI.h>
 #include <wiringSerial.h>
+
+#define _DEBUG_
 
 //Sonic
 #define TRIG 15
@@ -34,7 +37,7 @@ int model_no = 0;
 
 //메시지 큐 식별자
 mqd_t msg_q;
-const char* name = "/posix_mq";
+const char* name = "/holo_ipc";
 char buf[BUFSIZ];
 char type[BUFSIZ];
 
@@ -132,32 +135,65 @@ float getBluetooth() { //Read value with UART (Zoom, Rotate)
 }
 
 bool sendData(int type, int data) {
-    if (msg_q == NULL)
-        return false;
-
     //value를 다른프로세스로 보냄
-    mq_send(msg_q, (const char*)&type, sizeof(int), 0)
+    mq_send(msg_q, (const char*)&type, sizeof(int), 0);
     mq_send(msg_q, (const char*)&data, sizeof(int), 0);
 
     return true;
 }
 
 void *func_thread() {
+    #ifdef _DEBUG_
+    printf("Thread Start... \n");
+    #endif
     float zoom, roll, pitch, yaw;
 
+    int cnt = 0;
     while(mode != -1) {
         if(mode == 0) {
+            #ifdef _DEBUG_
+            printf("Wired Sensor Mode \n");
+            #endif
+            
+            // Zoom
+            //==================================================
             zoom = getSonicSens();
+            float sonic_min = 40;
+            float sonic_max = 300;
+            if (zoom > sonic_max)   zoom = sonic_max;
+            if (zoom < sonic_min)   zoom = sonic_min;
+            zoom = (zoom - sonic_min) / (sonic_max - sonic_min);
             sendData(TYPE_ZOOM, (int)(zoom * 100));
+            delay(50);
+            
+            // Rotations
+            //==================================================
             roll = getRotateSens(1);
-            sendData(TYPE_ROLL, (int)(roll * 100));
+            
+            while (roll < 0)
+                roll += 3.1415 * 2;
+            sendData(TYPE_ROLL, (int)(roll * 10));
+            delay(50);
+            
+            while (pitch < 0)
+                pitch += 3.1415 * 2;
             pitch = getRotateSens(2);
-            sendData(TYPE_PITCH, (int)(pitch *100));
+            sendData(TYPE_PITCH, (int)(pitch *10));
+            delay(50);
+            
+            #ifdef _DEBUG_
+            printf("Wired Sensor | sonic %f | roll %f | pitch %f \n", zoom, roll, pitch);
+            #endif
         }
         else if(mode == 1) {
             //data 1? 2? = getBluetooth();
         }
+
     }
+    
+    #ifdef _DEBUG_
+    printf("Thread End \n");
+    #endif
 }
 
 
@@ -173,12 +209,17 @@ int main() {
     pinMode(ECHO, INPUT); //Sonic
 
     pthread_t thread;
-    pthread_create(&thread, NULL, func_thread, NULL);
+    int res = pthread_create(&thread, NULL, func_thread, NULL);
+    #ifdef _DEBUG_
+    printf("pthread_create() = %d \n", res);
+    #endif
    
-    /*while(1) {
+    /*
+    while(1) {
         printf("Distance : %2.2f mm \n",getSonicSens());
         delay(1000);
-    }*/ //test sonic
+    } //test sonic
+    */
     
     /*while(1) {
         printf("%f %f \n",getRotateSens(1), getRotateSens(2));
@@ -187,7 +228,12 @@ int main() {
 
     char ch;
     while(ch != 'q') {
+        #ifndef _DEBUG_
         system("clear");
+        #else
+        printf("\n");
+        #endif
+        
         printf("Input Mode : %s \n", (mode == 0) ? "Wired Sensor" : "Bluetooth");
         printf("Model No.%d \n", model_no);
         printf("─────────────────────────────────────── \n");
