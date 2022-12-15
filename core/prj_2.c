@@ -96,15 +96,6 @@ float getRotateSens(int angle) {
     unsigned char buffer[100];
     short x, y= 0 , z= 0;
 
-    if(wiringPiSPISetupMode(SPI_CH, SPI_SPEED,SPI_MODE) == -1) return 1;
-
-    pinMode(CS_GPIO, OUTPUT); //Chip Select로 사용할 핀은 OUTPUT으로 설정
-    digitalWrite(CS_GPIO, HIGH); //IDLE 상태로 유지
-
-    writeRegister_ADXL345(DATA_FORMAT,0x09); //범위 설정 +- 4G
-    writeRegister_ADXL345(BW_RATE,0x0C); //Output Data Rage 400 Hz
-    writeRegister_ADXL345(POWER_CTL,0x08); //측정 모드
-
     double a, b, c;
     readRegister_ADXL345(DATAX0,6,buffer); //데이터수신
 
@@ -232,16 +223,32 @@ void *func_thread() {
 
 
 int main() {
+    //msgq
+    //=============================
     msg_q = mq_open(name, O_WRONLY);
     
+    //wiringPi(GPIO)
+    //=============================
     if(wiringPiSetupGpio() < 0 ){
         printf("wiringPiSetup() is failed\n");
         return 1;
-    } //wiringPi(GPIO)
+    }
+    
+    //sonic
+    //=============================
+    pinMode(TRIG, OUTPUT); 
+    pinMode(ECHO, INPUT);
+    
+    //Rotate
+    //=============================
+    if(wiringPiSPISetupMode(SPI_CH, SPI_SPEED,SPI_MODE) == -1) return 1;
+    pinMode(CS_GPIO, OUTPUT); //Chip Select로 사용할 핀은 OUTPUT으로 설정
+    digitalWrite(CS_GPIO, HIGH); //IDLE 상태로 유지
 
-    pinMode(TRIG, OUTPUT); //Sonic
-    pinMode(ECHO, INPUT); //Sonic
-
+    writeRegister_ADXL345(DATA_FORMAT,0x09); //범위 설정 +- 4G
+    writeRegister_ADXL345(BW_RATE,0x0C); //Output Data Rage 400 Hz
+    writeRegister_ADXL345(POWER_CTL,0x08); //측정 모드
+    
     pthread_t thread;
     int res = pthread_create(&thread, NULL, func_thread, NULL);
     #ifdef _DEBUG_
