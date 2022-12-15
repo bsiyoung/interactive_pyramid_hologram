@@ -111,7 +111,7 @@ float getRotateSens(int angle) {
 
 void getBluetooth() { //Read value with UART (Zoom, Rotate)
     int fd_serial;
-    float pitch, roll, yaw, zoom;
+    int pitch, roll, yaw, zoom;
     
     char ReadBuf[20] = "";
     if ((fd_serial = serialOpen (UART2_DEV, BAUD_RATE)) < 0){
@@ -130,22 +130,22 @@ void getBluetooth() { //Read value with UART (Zoom, Rotate)
         fflush (stdout); //?
 
         if (x == 'A') {
-            pitch = atof(ReadBuf);
+            pitch = atoi(ReadBuf) * 100;
             sendData(1, pitch);
             ReadBuf[0] = '\0';
             idx = 0;
         } else if (x == 'B') {
-            roll = atof(ReadBuf);
+            roll = atoi(ReadBuf) * 100;
             sendData(2, roll);
             ReadBuf[0] = '\0';
             idx = 0;
         } else if (x == 'C') {
-            yaw = atof(ReadBuf);
+            yaw = atoi(ReadBuf) * 100;
             sendData(3, yaw);
             ReadBuf[0] = '\0';
             idx = 0;
         } else if (x == 'D') {
-            zoom = atof(ReadBuf);
+            zoom = atoi(ReadBuf) * 100;
             sendData(0, zoom);
             idx = -1;
         } else {
@@ -177,15 +177,15 @@ bool sendData(int type, float data1) {
 }
 
 void *func_thread() {
-    float zoom, roll, pitch, yaw;
+    int zoom, roll, pitch;
 
     while(mode != -1) {
         if(mode == 0) {
-            zoom = getSonicSens();
+            zoom = (int)getSonicSens() * 100;
             sendData(0, zoom);
-            roll = getRotateSens(1);
+            roll = (int)getRotateSens(1) * 100;
             sendData(1, roll);
-            pitch = getRotateSens(2);
+            pitch = (int)getRotateSens(2) * 100;
             sendData(2, pitch);
         }
         else if(mode == 1) {
