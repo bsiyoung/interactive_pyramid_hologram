@@ -10,7 +10,6 @@
 #include <math.h>
 #include <wiringPiSPI.h>
 #include <wiringSerial.h>
-#include "value_define.h"
 
 //Sonic
 #define TRIG 15
@@ -34,7 +33,17 @@ int mode = 0;
 int model_no = 0;
 
 //메시지 큐 식별자
-int msg_q;
+mqd_t msg_q;
+const char* name = "/posix_mq";
+char buf[BUFSIZ];
+char type[BUFSIZ];
+
+#define TYPE_QUIT           0
+#define TYPE_MODEL_SELECT   1
+#define TYPE_ZOOM           2
+#define TYPE_YAW            3
+#define TYPE_PITCH          4
+#define TYPE_ROLL           5
 
 //ADXL345에서 값을 읽는 함수
 void readRegister_ADXL345(char registerAddress, int numBytes, char * values){
@@ -109,93 +118,51 @@ float getRotateSens(int angle) {
     else return 0;
 }
 
-void getBluetooth() { //Read value with UART (Zoom, Rotate)
+float getBluetooth() { //Read value with UART (Zoom, Rotate)
     int fd_serial;
-    int pitch, roll, yaw, zoom;
-    
-    char ReadBuf[20] = "";
     if ((fd_serial = serialOpen (UART2_DEV, BAUD_RATE)) < 0){
         printf ("Unable to open serial device.\n") ;
-        return;
-    }
-    if (serialDataAvail(fd_serial) < 0) {
-        return;
+        return 1 ;
     }
 
     unsigned char x;
-    int idx = 0;
+    if(read (fd_serial, &x, 1) != 1) return -1;
 
-    while (idx != -1) {
-        if(read (fd_serial, &x, 1) != 1) return -1; //serialRead
-        fflush (stdout); //?
-
-        if (x == 'A') {
-            pitch = atoi(ReadBuf) * 100;
-            sendData(1, pitch);
-            ReadBuf[0] = '\0';
-            idx = 0;
-        } else if (x == 'B') {
-            roll = atoi(ReadBuf) * 100;
-            sendData(2, roll);
-            ReadBuf[0] = '\0';
-            idx = 0;
-        } else if (x == 'C') {
-            yaw = atoi(ReadBuf) * 100;
-            sendData(3, yaw);
-            ReadBuf[0] = '\0';
-            idx = 0;
-        } else if (x == 'D') {
-            zoom = atoi(ReadBuf) * 100;
-            sendData(0, zoom);
-            idx = -1;
-        } else {
-            ReadBuf[idx] = x;
-            idx++;
-        }
-    }
+    return (float)x; //받는 데이터 정의 필요
 }
 
-bool sendData(int type, float data1) {
+bool sendData(int type, int data) {
+    if (msg_q == NULL)
+        return false;
+
     //value를 다른프로세스로 보냄
-    msg_q = msgget((key_t)MSG_Q_KEY, IPC_CREAT | 0666);
-    if (msg_q == -1) {
-        perror("msgget()");
-        return -1;
-    }
-    struct DataType dataType;
-    memset(&dataType, 0, sizeof(dataType));
-    dataType.type = SendType_Data;
-    dataType.data_Type = type;
-    dataType.data = data1;
+    mq_send(msg_q, (const char*)&type, sizeof(int), 0)
+    mq_send(msg_q, (const char*)&data, sizeof(int), 0);
 
-    if (msgsnd(msg_q, &dataType, sizeof(dataType) - sizeof(long), IPC_NOWAIT) < 0) {
-        perror("msgsnd()");
-    }
-
-    sleep(1);
     return true;
 }
 
 void *func_thread() {
-    int zoom, roll, pitch;
+    float zoom, roll, pitch, yaw;
 
     while(mode != -1) {
         if(mode == 0) {
-            zoom = (int)getSonicSens() * 100;
-            sendData(0, zoom);
-            roll = (int)getRotateSens(1) * 100;
-            sendData(1, roll);
-            pitch = (int)getRotateSens(2) * 100;
-            sendData(2, pitch);
+            zoom = getSonicSens();
+            sendData(TYPE_ZOOM, (int)(zoom * 100));
+            roll = getRotateSens(1);
+            sendData(TYPE_ROLL, (int)(roll * 100));
+            pitch = getRotateSens(2);
+            sendData(TYPE_PITCH, (int)(pitch *100));
         }
         else if(mode == 1) {
-            getBluetooth();
+            //data 1? 2? = getBluetooth();
         }
     }
 }
 
 
 int main() {
+    msg_q = mq_open(name, O_WRONLY);
     
     if(wiringPiSetupGpio() < 0 ){
         printf("wiringPiSetup() is failed\n");
@@ -204,14 +171,6 @@ int main() {
 
     pinMode(TRIG, OUTPUT); //Sonic
     pinMode(ECHO, INPUT); //Sonic
-
-    msg_q = msgget((key_t)MSG_Q_KEY, IPC_CREAT | 0666);
-    if (msg_q == -1) {
-        perror("msgget()");
-        return -1;
-    }
-
-    struct ModelType modelType;
 
     pthread_t thread;
     pthread_create(&thread, NULL, func_thread, NULL);
@@ -224,7 +183,7 @@ int main() {
     /*while(1) {
         printf("%f %f \n",getRotateSens(1), getRotateSens(2));
         delay(1000);
-    }*/ //test Rotate
+    }*/ //test Gyro
 
     char ch;
     while(ch != 'q') {
@@ -239,21 +198,15 @@ int main() {
         
         if (ch == 'q') {
             mode = -1;
+            sendData(TYPE_QUIT, 0);
             continue;
         }
         else if (ch == 'm') {
             mode = 1 - mode;
         }
-        else if ('0' <= ch && ch <= '9') {
+        else if ('0' <= ch && ch <= '9') { // Send Model No To Rendering Program 
             model_no = ch - '0';
-            // Send Model No To Rendering Program 
-            memset(&modelType, 0, sizeof(modelType));
-            modelType.type = SendType_Model;
-            modelType.model = model_no;
-            if (msgsnd(msg_q, &modelType, sizeof(modelType) - sizeof(long), IPC_NOWAIT) < 0) {
-                perror("msgsnd()");
-            }
-            sleep(1);
+            sendData(TYPE_MODEL_SELECT, model_no);
         }
     }
 
