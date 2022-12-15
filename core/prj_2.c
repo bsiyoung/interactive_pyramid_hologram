@@ -121,17 +121,50 @@ float getRotateSens(int angle) {
     else return 0;
 }
 
-float getBluetooth() { //Read value with UART (Zoom, Rotate)
+void getBluetooth() { //Read value with UART (Zoom, Rotate)
     int fd_serial;
+    int pitch, roll, yaw, zoom;
+    
+    char ReadBuf[20] = "";
     if ((fd_serial = serialOpen (UART2_DEV, BAUD_RATE)) < 0){
         printf ("Unable to open serial device.\n") ;
-        return 1 ;
+        return;
+    }
+    if (serialDataAvail(fd_serial) < 0) {
+        return;
     }
 
     unsigned char x;
-    if(read (fd_serial, &x, 1) != 1) return -1;
+    int idx = 0;
 
-    return (float)x; //받는 데이터 정의 필요
+    while (idx != -1) {
+        if(read (fd_serial, &x, 1) != 1) return -1; //serialRead
+        fflush (stdout); //?
+
+        if (x == 'A') { //문자열에 A가 오면 pitch전송
+            pitch = atoi(ReadBuf) * 100;
+            sendData(1, pitch);
+            ReadBuf[0] = '\0';
+            idx = 0;
+        } else if (x == 'B') { //문자열에 B가 오면 roll전송
+            roll = atoi(ReadBuf) * 100;
+            sendData(2, roll);
+            ReadBuf[0] = '\0';
+            idx = 0;
+        } else if (x == 'C') { //문자열에 C가 오면 yaw전송
+            yaw = atoi(ReadBuf) * 100;
+            sendData(3, yaw);
+            ReadBuf[0] = '\0';
+            idx = 0;
+        } else if (x == 'D') { //문자열에 D가 오면 zoom전송후 반복문 종료
+            zoom = atoi(ReadBuf) * 100;
+            sendData(0, zoom);
+            idx = -1;
+        } else {
+            ReadBuf[idx] = x;
+            idx++;
+        }
+    }
 }
 
 bool sendData(int type, int data) {
@@ -186,7 +219,8 @@ void *func_thread() {
             #endif
         }
         else if(mode == 1) {
-            //data 1? 2? = getBluetooth();
+            getBluetooth();
+            delay(50);
         }
 
     }
