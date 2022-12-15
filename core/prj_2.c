@@ -211,7 +211,7 @@ void *func_thread() {
         }
         else if(mode == 1) {
             getBluetooth();
-            delay(50);
+            delay(50); //
         }
 
     }
