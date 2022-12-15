@@ -111,7 +111,7 @@ float getRotateSens(int angle) {
 
 void getBluetooth() { //Read value with UART (Zoom, Rotate)
     int fd_serial;
-    float pitch, roll, yaw;
+    float pitch, roll, yaw, zoom;
     
     char ReadBuf[20] = "";
     if ((fd_serial = serialOpen (UART2_DEV, BAUD_RATE)) < 0){
@@ -142,7 +142,11 @@ void getBluetooth() { //Read value with UART (Zoom, Rotate)
         } else if (x == 'C') {
             yaw = atof(ReadBuf);
             sendData(3, yaw);
-            //ReadBuf[0] = '\0';
+            ReadBuf[0] = '\0';
+            idx = 0;
+        } else if (x == 'D') {
+            zoom = atof(ReadBuf);
+            sendData(0, zoom);
             idx = -1;
         } else {
             ReadBuf[idx] = x;
