@@ -109,17 +109,46 @@ float getRotateSens(int angle) {
     else return 0;
 }
 
-float getBluetooth() { //Read value with UART (Zoom, Rotate)
+void getBluetooth() { //Read value with UART (Zoom, Rotate)
     int fd_serial;
+    float pitch, roll, yaw;
+    
+    char ReadBuf[20] = "";
     if ((fd_serial = serialOpen (UART2_DEV, BAUD_RATE)) < 0){
         printf ("Unable to open serial device.\n") ;
-        return 1 ;
+        return;
+    }
+    if (serialDataAvail(fd_serial) < 0) {
+        return;
     }
 
     unsigned char x;
-    if(read (fd_serial, &x, 1) != 1) return -1;
+    int idx = 0;
 
-    return (float)x; //받는 데이터 정의 필요
+    while (idx != -1) {
+        if(read (fd_serial, &x, 1) != 1) return -1; //serialRead
+        fflush (stdout); //?
+
+        if (x == 'A') {
+            pitch = atof(ReadBuf);
+            sendData(1, pitch);
+            ReadBuf[0] = '\0';
+            idx = 0;
+        } else if (x == 'B') {
+            roll = atof(ReadBuf);
+            sendData(2, roll);
+            ReadBuf[0] = '\0';
+            idx = 0;
+        } else if (x == 'C') {
+            yaw = atof(ReadBuf);
+            sendData(3, yaw);
+            //ReadBuf[0] = '\0';
+            idx = -1;
+        } else {
+            ReadBuf[idx] = x;
+            idx++;
+        }
+    }
 }
 
 bool sendData(int type, float data1) {
@@ -156,7 +185,7 @@ void *func_thread() {
             sendData(2, pitch);
         }
         else if(mode == 1) {
-            //data 1? 2? = getBluetooth();
+            getBluetooth();
         }
     }
 }
@@ -191,7 +220,7 @@ int main() {
     /*while(1) {
         printf("%f %f \n",getRotateSens(1), getRotateSens(2));
         delay(1000);
-    }*/ //test Gyro
+    }*/ //test Rotate
 
     char ch;
     while(ch != 'q') {
