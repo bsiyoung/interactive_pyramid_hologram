@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+PyOpenGL==3.1.6
+PyOpenGL_accelerate==3.1.5
+glfw==2.5.5
+numpy==1.23.5
+pyrr==0.10.3
+pillow==9.3.0
+screeninfo==0.8.1
+posix_ipc==1.1.0
+=======
 PyOpenGL
 PyOpenGL_accelerate
 glfw
@@ -6,3 +16,4 @@ pyrr
 pillow
 screeninfo
 posix_ipc
+>>>>>>> b1bc64948f8b87c2938eabe51270b54547d4d78d
