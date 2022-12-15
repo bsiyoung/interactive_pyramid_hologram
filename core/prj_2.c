@@ -148,6 +148,7 @@ void getBluetooth() { //Read value with UART (Zoom, Rotate)
             yaw = atoi(ReadBuf) * 100;
             sendData(3, yaw);
             ReadBuf[0] = '\0';
+            //zoom 구현 안됐을 시 아래 idx = 0; 을 idx = -1;로 수정하면 돼요 
             idx = 0;
         } else if (x == 'D') { //문자열에 D가 오면 zoom전송후 반복문 종료
             zoom = atoi(ReadBuf) * 100;
