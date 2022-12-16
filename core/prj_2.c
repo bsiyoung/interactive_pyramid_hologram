@@ -32,6 +32,12 @@
 #define BAUD_RATE 9600 //115200
 static const char* UART2_DEV = "/dev/ttyAMA1";
 
+int fd_serial;
+if ((fd_serial = serialOpen (UART2_DEV, BAUD_RATE)) < 0){
+        printf ("Unable to open serial device.\n") ;
+        return;
+    }
+
 int mode = 0;
 int model_no = 0;
 
@@ -114,15 +120,11 @@ float getRotateSens(int angle) {
 
 void getBluetooth() { //Read value with UART (Zoom, Rotate)
     //블루투스 통신할때 AT커맨드 모드로 보율 9600으로 해둬야해요
-    int fd_serial;
+    
     int pitch, roll, yaw, zoom;
    
     char ReadBuf[20] = "";
-    //serailOpen 너무많이해서 오류난다면 메인으로 옮겨서 fd를 매개변수로 받아야할거같아요
-    if ((fd_serial = serialOpen (UART2_DEV, BAUD_RATE)) < 0){
-        printf ("Unable to open serial device.\n") ;
-        return;
-    }
+    
     if (serialDataAvail(fd_serial) < 0) {
         return;
     }
