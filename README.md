@@ -1,12 +1,14 @@
-# interactive_pyramid_hologram
-![KakaoTalk_20221216_003103777](https://user-images.githubusercontent.com/39472306/208486203-b6bcd818-35c0-4204-94a5-bbda7ff98875.jpg)
+# Interactive Pyramid Hologram
+![KakaoTalk_20221216_003103777](https://user-images.githubusercontent.com/39472306/208486988-b94a9edf-2f89-4494-9d59-0e5b670b0c8d.jpg)
+이 프로젝트는 라즈베리파이와 각종 센서들을 사용해 피라미드 홀로그램의 형상을 실시간으로 제어하는 것을 목표로 한다.
+피라미드 홀로그램 제작 방법 : [Youtube](https://www.youtube.com/watch?v=FnUrI_3LBuc)
 
 ## Modules
 <details>
 <summary>3D Renderer</summary>
 
 ### 3d_renderer
-OpenGL을 사용해 피라미드 홀로그램에 사용되는 3차원 입체 영상을 실시간으로 렌더링한다.
+OpenGL을 사용해 3차원 입체 영상을 피라미드 홀로그램에 사용되는 형식으로 실시간 렌더링한다.
 #### Steps To Run 3d_renderer
 1. Install packages
 ```
