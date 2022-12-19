@@ -1,4 +1,6 @@
 # interactive_pyramid_hologram
+![KakaoTalk_20221216_003103777](https://user-images.githubusercontent.com/39472306/208486203-b6bcd818-35c0-4204-94a5-bbda7ff98875.jpg)
+
 ## Modules
 <details>
 <summary>3D Renderer</summary>
