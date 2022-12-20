@@ -48,14 +48,14 @@ export MESA_GL_VERSION_OVERRIDE=3.3
 ```
 
 #### 사용자 입력
-    |Key|동작|
-    |------|---|
-    |Q|Quit|
-    |Z|Zoom Out|
-    |X|Zoom In|
-    |W/S|X축 회전|
-    |E/D|Y축 회전|
-    |R/F|Z축 회전|
+  |Key|동작|
+  |------|---|
+  |Q|Quit|
+  |Z|Zoom Out|
+  |X|Zoom In|
+  |W/S|X축 회전|
+  |E/D|Y축 회전|
+  |R/F|Z축 회전|
 
 #### 프로그램 구조
 1. 메인 스레드
