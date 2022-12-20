@@ -84,16 +84,13 @@ gcc -o prj_3 prj_3.c -lm -lrt -lwiringPi -lpthread
 sudo ./prj_3
 ```
 ### Structure
-
   - thread
-  
 표준 입력을 받아 특정 기능을 수행하는 main thread, 센서와 블루투스 값을 받아 3D renderer 프로세스로 값을 보내는 Send thread 두 개의 스레드가 동시에 동작함.<br><br>
 Send thread(함수명 func_thread)안에는 초음파 센서의 값을 읽는 함수 getSonicSens, 가속도 센서의 값을 읽는 함수 getRotateSens, uart 통신을 통해 블루투스의 값을 읽는 getBluetooth, 메시지 큐를 사용하여 IPC 통신을 통해 3D renderer 프로세스로 값을 보내는 sendData가 모두 포함되어있음.<br>
 main thread(main 함수)에서는 반복문 속에서 표준 출력을 통해 간이 UI를 표시하고 표준 입력을 받아 특정 명령을 수행함.<br>
 해당 명령에 대해서는 아래 Function 항목에 기재하였음.
-  
-  - POSIX IPC
 
+  - POSIX IPC
 센서로부터 값을 읽어들이는 프로세스에서 3D 렌더링하는 프로세스로 값을 전달 할 때 IPC 통신을 사용하고 방식은 POSIX 메시지큐를 사용함. <br>mq_open을 통해 메시지큐를 생성하고 메시지 큐끼리 공유할 이름을 정의하였음.<br>sendData 함수에서 mq_send를 통해 렌더링 프로세스로 값을 전송할 수 있음.
 
 ### Function
