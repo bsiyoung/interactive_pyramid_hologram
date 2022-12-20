@@ -5,7 +5,7 @@
 피라미드 홀로그램 제작 방법 : [Youtube](https://www.youtube.com/watch?v=FnUrI_3LBuc)
 
 ## System Structure
-<img src="https://user-images.githubusercontent.com/39472306/208497367-192fdc5a-169c-4ba7-a09a-bb8eae7ae46d.png" width="600" height="350"/>
+<img src="https://user-images.githubusercontent.com/39472306/208681321-6a0b0fb6-ad13-4f70-ab18-9d3286ec8f22.png" width="600" height="350"/>
 
 ## Modules
 <details>
