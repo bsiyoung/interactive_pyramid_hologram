@@ -118,7 +118,10 @@ q : 프로그램 종료
 스마트폰과 라즈베리파이 사이의 블루투스(UART)통신을 위한 UUID입니다.<br>
 ![image](https://user-images.githubusercontent.com/93969640/208683913-eec75c8f-b2a5-4b4b-a8c5-e245c899a3bb.png)<br>
 각 축의 각속도 성분을 받고, 각속도를 적분하여 회전각을 추출하기 위해 적분 간격(dt)을 구한다.<br>
-`* dt : 센서가 현재 상태를 감지하는 시간 간격`
+각속도 성분을 적분 -> 회전각(pitch, roll)으로 변환한다. <br>
+여기까지의 pitch, roll의 단위는 '라디안'이다. 아래 로그 출력부분에서 멤버변수 'RAD2DGR'를 곱해주어 degree로 변환해준다. <br>
+ 
+`* dt : 센서가 현재 상태를 감지하는 시간 간격`<br>
 `* NS2S : nano second -> second `
 
 </details>
