@@ -24,7 +24,7 @@ pip install -r requirements.txt
 sudo python run.py
 ```
 
-### Fix Bugs
+#### Fix Bugs
 GLFW 관련 에러
 ```
 sudo apt install libglfw3 libglfw3-dev
@@ -39,6 +39,14 @@ GLSL 3.30 Is Not Supported 에러
 ```
 export MESA_GL_VERSION_OVERRIDE=3.3
 ```
+  
+
+#### 프로그램 구조
+1. 메인 스레드
+https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/run.py#L106
+
+2. IPC 통신 스레드
+https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/ipc_msgq.py#L14
 </details>
 
 <details>
