@@ -57,8 +57,17 @@ gcc -o prj_3 prj_3.c -lm -lrt -lwiringPi -lpthread
 sudo ./prj_3
 ```
 ### Structure
-stdin을 받아 특정 기능을 수행하는 main thread, 센서와 블루투스 값을 받아 3D renderer 프로세스로 값을 보내는 Send thread 두 개의 스레드로 동작.<br>
-특정 기능에 대해서는 아래의 항목을 참고바람.
+
+  - thread
+  
+표준 입력을 받아 특정 기능을 수행하는 main thread, 센서와 블루투스 값을 받아 3D renderer 프로세스로 값을 보내는 Send thread 두 개의 스레드가 동시에 동작함.<br><br>
+Send thread(함수명 func_thread)안에는 초음파 센서의 값을 읽는 함수 getSonicSens, 가속도 센서의 값을 읽는 함수 getRotateSens, uart 통신을 통해 블루투스의 값을 읽는 getBluetooth, 메시지 큐를 사용하여 IPC 통신을 통해 3D renderer 프로세스로 값을 보내는 sendData가 모두 포함되어있음.<br>
+main thread(main 함수)에서는 반복문 속에서 표준 출력을 통해 간이 UI를 표시하고 표준 입력을 받아 특정 명령을 수행함.<br>
+해당 명령에 대해서는 아래 Function 항목에 기재하였음.
+  
+  - POSIX IPC
+
+센서로부터 값을 읽어들이는 프로세스에서 3D 렌더링하는 프로세스로 값을 전달 할 때 IPC 통신을 사용하고 방식은 POSIX 메시지큐를 사용함. <br>mq_open을 통해 메시지큐를 생성하고 메시지 큐끼리 공유할 이름을 정의하였음.<br>sendData 함수에서 mq_send를 통해 렌더링 프로세스로 값을 전송할 수 있음.
 
 ### Function
 아래의 문자를 입력 후 enter를 누르면 해당 기능을 실행<br><br>
@@ -68,6 +77,10 @@ q : 프로그램 종료
 
 ### Precautions
 초음파 센서가 연결되어 있지 않으면 프로그램이 정상적으로 동작하지 않아 프로그램을 실행할 때는 반드시 초음파 센서가 연결된 상태여야 함.
+
+### Issue
+블루투스의 값을 읽는 getBluetooth 함수를 완벽하게 구현하지 않아 해당 기능을 이용할 수 없음.
+
 </details>
 
 <details>
@@ -95,22 +108,6 @@ q : 프로그램 종료
 2. 자이로센서로 읽어들인 데이터 값을 write함수를 통하여 값을 연속적으로 바로 전달하려고 했지만 제대로 된 값이 나오지 않았다. 
   ->버튼을 한번 누를때마다 데이터값이 갱신되어 한번씩 보내진다.
 
-
-### Improvement
-1. 라즈베리파이에서 값을 1바이트씩 읽기때문에 pitch, roll, yaw값을 A,B,C와 같은 문자열로 구분해서 보내주었다.
-
-### Ui Flow
-
-[블루투스 ON 클릭시]<br>
-![image](https://user-images.githubusercontent.com/93969640/208674914-74de2574-13d4-4b44-bfdd-f9085bf88235.png)<br>
-
-[허용]<br>
-![image](https://user-images.githubusercontent.com/93969640/208675074-1abc6dc5-a51d-42bb-8784-8d09961468b2.png)<br>
-상태를 나타내는 텍스트에딧이 활성화로 바뀜.<br>
-
-[연결버튼]<br>
-![image](https://user-images.githubusercontent.com/93969640/208675103-60497989-aa14-4e32-a5e9-2b3d9e17909d.png)<br>
-
-![image](https://user-images.githubusercontent.com/93969640/208675352-04efff0c-c3f3-4e0b-b05e-839e3c25c60d.png)<br>
+3. 
 
 </details>
