@@ -102,14 +102,14 @@ q : 프로그램 종료
 ### Ui Flow
 
 [블루투스 ON 클릭시]<br>
-![블루투스연결1](https://user-images.githubusercontent.com/93969640/208677459-cd869581-c108-42d5-9302-cb0bc92438a8.jpg)<br>
+![블루투스연결1](https://user-images.githubusercontent.com/93969640/208677459-cd869581-c108-42d5-9302-cb0bc92438a8.jpg)
 [허용]<br>
 ![블루투스연결2](https://user-images.githubusercontent.com/93969640/208677474-f48ccb94-7ce8-463a-848a-4fdb4ff68ccf.jpg)<br>
 상태를 나타내는 텍스트에딧이 활성화로 바뀜.<br>
 
 [연결버튼]<br>
-![블루투스연결3](https://user-images.githubusercontent.com/93969640/208677493-bf786347-bd08-4d98-be38-fd48be8b068b.jpg)<br>
-
+![블루투스연결3](https://user-images.githubusercontent.com/93969640/208677493-bf786347-bd08-4d98-be38-fd48be8b068b.jpg)
+[오류발생]
 ![블루투스연결오류](https://user-images.githubusercontent.com/93969640/208677522-202399db-c5ff-46e8-b383-e0069deea415.jpg)<br>
 
 </details>
