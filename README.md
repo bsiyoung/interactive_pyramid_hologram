@@ -101,16 +101,16 @@ q : 프로그램 종료
 
 ### Ui Flow
 
-[블루투스 ON 클릭시]
-![image](https://user-images.githubusercontent.com/93969640/208674914-74de2574-13d4-4b44-bfdd-f9085bf88235.png)
+[블루투스 ON 클릭시]<br>
+![image](https://user-images.githubusercontent.com/93969640/208674914-74de2574-13d4-4b44-bfdd-f9085bf88235.png)<br>
 
-[허용]
-![image](https://user-images.githubusercontent.com/93969640/208675074-1abc6dc5-a51d-42bb-8784-8d09961468b2.png)
-상태를 나타내는 텍스트에딧이 활성화로 바뀜.
+[허용]<br>
+![image](https://user-images.githubusercontent.com/93969640/208675074-1abc6dc5-a51d-42bb-8784-8d09961468b2.png)<br>
+상태를 나타내는 텍스트에딧이 활성화로 바뀜.<br>
 
-[연결버튼]
-![image](https://user-images.githubusercontent.com/93969640/208675103-60497989-aa14-4e32-a5e9-2b3d9e17909d.png)
+[연결버튼]<br>
+![image](https://user-images.githubusercontent.com/93969640/208675103-60497989-aa14-4e32-a5e9-2b3d9e17909d.png)<br>
 
-![image](https://user-images.githubusercontent.com/93969640/208675352-04efff0c-c3f3-4e0b-b05e-839e3c25c60d.png)
+![image](https://user-images.githubusercontent.com/93969640/208675352-04efff0c-c3f3-4e0b-b05e-839e3c25c60d.png)<br>
 
 </details>
