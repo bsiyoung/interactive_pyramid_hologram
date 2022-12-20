@@ -46,14 +46,8 @@ GLSL 3.30 Is Not Supported 에러
 ```
 export MESA_GL_VERSION_OVERRIDE=3.3
 ```
-  
 
-#### 프로그램 구조
-1. 메인 스레드
-https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/run.py#L106
-
-    GLFW와 OpenGL을 사용해 윈도우를 생성하고 피라미드 홀로그램에 사용되는 영상 형식대로 3D 오브젝트의 앞, 뒤, 양옆 모습을 렌더링한다. Callback 함수를 사용해 사용자의 키보드 입력을 받아들인다.
-  
+#### 사용자 입력
     |Key|동작|
     |------|---|
     |Q|Quit|
@@ -62,6 +56,12 @@ https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472
     |W/S|X축 회전|
     |E/D|Y축 회전|
     |R/F|Z축 회전|
+
+#### 프로그램 구조
+1. 메인 스레드
+https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/run.py#L106
+
+    GLFW와 OpenGL을 사용해 윈도우를 생성하고 피라미드 홀로그램에 사용되는 영상 형식대로 3D 오브젝트의 앞, 뒤, 양옆 모습을 렌더링한다. Callback 함수를 사용해 사용자의 키보드 입력을 받아들인다.
   
 2. IPC 통신 스레드
 https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/ipc_msgq.py#L14
