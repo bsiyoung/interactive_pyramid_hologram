@@ -7,6 +7,9 @@
 ## System Structure
 <img src="https://user-images.githubusercontent.com/39472306/208497367-192fdc5a-169c-4ba7-a09a-bb8eae7ae46d.png" width="600" height="350" align="center"/>
 
+## Development schedule
+![간트차트](https://user-images.githubusercontent.com/93969640/208680511-df2fba87-9d91-40c8-b3cd-60a45da6248a.jpg)
+
 ## Modules
 <details>
 <summary>3D Renderer</summary>
@@ -132,6 +135,29 @@ q : 프로그램 종료
 2. 자이로센서로 읽어들인 데이터 값을 write함수를 통하여 값을 연속적으로 바로 전달하려고 했지만 제대로 된 값이 나오지 않았다. 
   ->버튼을 한번 누를때마다 데이터값이 갱신되어 한번씩 보내진다.
 
-3. 
+### Improvement
+1. 라즈베리파이에서 값을 1바이트씩 읽기때문에 pitch, roll, yaw값을 A,B,C와 같은 문자열로 구분해서 보내주었다.
+
+### Ui Flow
+
+[블루투스 ON 클릭시]　　　　　　　　　 [허용]<br>
+![블루투스연결1](https://user-images.githubusercontent.com/93969640/208677459-cd869581-c108-42d5-9302-cb0bc92438a8.jpg)
+![블루투스연결2](https://user-images.githubusercontent.com/93969640/208677474-f48ccb94-7ce8-463a-848a-4fdb4ff68ccf.jpg)<br>
+상태를 나타내는 텍스트에딧이 활성화로 바뀜.<br>
+
+[연결버튼]　　　　　　　　　　　　　　[오류발생]<br>
+![블루투스연결3](https://user-images.githubusercontent.com/93969640/208677493-bf786347-bd08-4d98-be38-fd48be8b068b.jpg)
+![블루투스연결오류](https://user-images.githubusercontent.com/93969640/208677522-202399db-c5ff-46e8-b383-e0069deea415.jpg)<br>
+
+### Code
+![image](https://user-images.githubusercontent.com/93969640/208683712-c1cab124-264f-4c7d-bf48-dc77711d0db9.png)<br>
+스마트폰과 라즈베리파이 사이의 블루투스(UART)통신을 위한 UUID입니다.<br>
+![image](https://user-images.githubusercontent.com/93969640/208683913-eec75c8f-b2a5-4b4b-a8c5-e245c899a3bb.png)<br>
+각 축의 각속도 성분을 받고, 각속도를 적분하여 회전각을 추출하기 위해 적분 간격(dt)을 구한다.<br>
+각속도 성분을 적분 -> 회전각(pitch, roll)으로 변환한다. <br>
+여기까지의 pitch, roll의 단위는 '라디안'이다. 아래 로그 출력부분에서 멤버변수 'RAD2DGR'를 곱해주어 degree로 변환해준다. <br>
+ 
+`* dt : 센서가 현재 상태를 감지하는 시간 간격`<br>
+`* NS2S : nano second -> second `
 
 </details>
