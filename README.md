@@ -43,6 +43,7 @@ export MESA_GL_VERSION_OVERRIDE=3.3
 
 <details>
 <summary>Core</summary>
+
 ### Core
 센서와 블루투스로부터 값을 받아 3D renderer 프로세스로 보내고, stdin을 통해 모드를 변경하거나 모델 변경한다.
 ### Steps To Run core
