@@ -167,8 +167,12 @@ main thread(main 함수)에서는 반복문 속에서 표준 출력을 통해 �
 ![블루투스연결오류](https://user-images.githubusercontent.com/93969640/208677522-202399db-c5ff-46e8-b383-e0069deea415.jpg)<br>
 
 #### Code
+
+#### UUID
 https://github.com/bsiyoung/interactive_pyramid_hologram/blob/2aa3d446373515dce5667c9459ff61fa5a3dd72c/android_app/MainActivity.java#L69
-스마트폰과 라즈베리파이 사이의 블루투스(UART)통신을 위한 UUID입니다.<br>
+스마트폰과 라즈베리파이 사이의 블루투스(UART)통신을 위한 UUID이다.<br>
+
+#### 자이로센서
 https://github.com/bsiyoung/interactive_pyramid_hologram/blob/2aa3d446373515dce5667c9459ff61fa5a3dd72c/android_app/MainActivity.java#L175-L216
 각 축의 각속도 성분을 받고, 각속도를 적분하여 회전각을 추출하기 위해 적분 간격(dt)을 구한다.<br>
 각속도 성분을 적분 -> 회전각(pitch, roll)으로 변환한다. <br>
