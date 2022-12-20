@@ -69,6 +69,8 @@ https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472
 
     GLFW와 OpenGL을 사용해 윈도우를 생성하고 피라미드 홀로그램에 사용되는 영상 형식대로 3D 오브젝트의 앞, 뒤, 양옆 모습을 렌더링한다. Callback 함수를 사용해 사용자의 키보드 입력을 받아들인다.
   
+  > 3d_renderer 프로그램에서의 사용자 입력은 오브젝트를 수동으로 조작하기 위해 사용한다.
+  
 2. IPC 통신 스레드
 https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/ipc_msgq.py#L14
   
@@ -102,7 +104,7 @@ main thread(main 함수)에서는 반복문 속에서 표준 출력을 통해 �
 센서로부터 값을 읽어들이는 프로세스에서 3D 렌더링하는 프로세스로 값을 전달 할 때 IPC 통신을 사용하고 방식은 POSIX 메시지큐를 사용함. <br>mq_open을 통해 메시지큐를 생성하고 메시지 큐끼리 공유할 이름을 정의하였음.<br>sendData 함수에서 mq_send를 통해 렌더링 프로세스로 값을 전송할 수 있음.
 
 #### Function
-아래의 문자를 입력 후 enter를 누르면 해당 기능을 실행<br><br>
+아래의 문자를 입력 후 enter를 누르면 해당 기능을 실행
 
   |Key|Function|
   |---|---|
