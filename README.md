@@ -2,7 +2,7 @@
 <img src="https://user-images.githubusercontent.com/39472306/208486988-b94a9edf-2f89-4494-9d59-0e5b670b0c8d.jpg" width="500" height="333" align="center"/>
 이 프로젝트는 라즈베리파이와 각종 센서들을 사용해 피라미드 홀로그램의 형상을 실시간으로 제어하는 것을 목표로 한다. 이를 응용하면 3D 게임이나 인테리어 소품 등 시각적인 효과를 주기 위해 사용될 수 있을 것이다.
 
-피라미드 홀로그램 제작 방법 : [Youtube](https://www.youtube.com/watch?v=FnUrI_3LBuc)
+- 피라미드 홀로그램 제작 방법 : [Youtube](https://www.youtube.com/watch?v=FnUrI_3LBuc)
 
 ## System Structure
 <img src="https://user-images.githubusercontent.com/39472306/208497367-192fdc5a-169c-4ba7-a09a-bb8eae7ae46d.png" width="600" height="350" align="center"/>
@@ -103,9 +103,11 @@ main thread(main 함수)에서는 반복문 속에서 표준 출력을 통해 �
 
 #### Function
 아래의 문자를 입력 후 enter를 누르면 해당 기능을 실행<br><br>
-m : 모드 토글 (센서의 값을 받을지 블루투스의 값을 받을지 변경)<br>
-0~2 : 3D renderer에서 표시하는 모델 변경<br>
-q : 프로그램 종료
+|---|---|
+|Key|Function|
+|Q|프로그램 종료|
+|M|모드 토글|
+|1~3|오브젝트의 텍스처 변경|
 
 #### Precautions
 초음파 센서가 연결되어 있지 않으면 프로그램이 정상적으로 동작하지 않아 프로그램을 실행할 때는 반드시 초음파 센서가 연결된 상태여야 함.
