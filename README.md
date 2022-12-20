@@ -69,7 +69,7 @@ export MESA_GL_VERSION_OVERRIDE=3.3
 1. 메인 스레드
 https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/run.py#L106
 
-    GLFW와 OpenGL을 사용해 윈도우를 생성하고 피라미드 홀로그램에 사용되는 영상 형식대로 3D 오브젝트의 앞, 뒤, 양옆 모습을 렌더링한다. Callback 함수를 사용해 사용자의 키보드 입력을 받아들인다.
+    GLFW와 OpenGL을 사용해 윈도우를 생성하고 피라미드 홀로그램에 사용되는 영상 형식대로 3D 오브젝트의 앞, 뒤, 양옆 모습을 렌더링한다. 이때, CPU의 과부하를 막기 위해 FPS 최대값을 제한해준다. 또한 Callback 함수를 사용해 사용자의 키보드 입력을 받아들여 오브젝트를 수동으로 조작한다.
   
 2. IPC 통신 스레드
 https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/ipc_msgq.py#L14
