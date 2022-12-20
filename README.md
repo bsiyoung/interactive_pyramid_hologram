@@ -44,9 +44,14 @@ export MESA_GL_VERSION_OVERRIDE=3.3
 #### 프로그램 구조
 1. 메인 스레드
 https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/run.py#L106
-
+GLFW와 OpenGL을 사용해 윈도우를 생성하고 3D 오브젝트를 렌더링한다.
+  
+![image](https://user-images.githubusercontent.com/39472306/208679937-336b8c62-8395-4678-a26c-747c1146ffe0.png)
+  
 2. IPC 통신 스레드
 https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/ipc_msgq.py#L14
+백그라운드에서 실행되는 스레드. POSIX IPC Message Queue를 사용해 Core 프로그램에서 전송하는 데이터를 받아들여 처리한다.
+
 </details>
 
 <details>
