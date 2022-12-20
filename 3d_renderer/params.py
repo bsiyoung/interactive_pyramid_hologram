@@ -33,5 +33,7 @@ elev_angle = 23 # deg
 model_path = './res'
 models = [
     # [model name, depth coefficient]
-	['cube', 0.9]
+	['cube', 0.9],
+    ['cube2', 0.9],
+    ['cube3', 0.9]
 ]
