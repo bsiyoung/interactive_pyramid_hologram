@@ -40,3 +40,13 @@ GLSL 3.30 Is Not Supported 에러
 export MESA_GL_VERSION_OVERRIDE=3.3
 ```
 </details>
+
+<details>
+<summary>Core</summary>
+내용
+</details>
+
+<details>
+<summary>Android App</summary>
+내용
+</details>
