@@ -167,43 +167,13 @@ main thread(main 함수)에서는 반복문 속에서 표준 출력을 통해 �
 ![블루투스연결오류](https://user-images.githubusercontent.com/93969640/208677522-202399db-c5ff-46e8-b383-e0069deea415.jpg)<br>
 
 #### Code
-```
-    final static UUID BT_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); <br>
-
-```
+https://github.com/bsiyoung/interactive_pyramid_hologram/blob/2aa3d446373515dce5667c9459ff61fa5a3dd72c/android_app/MainActivity.java#L69<br>
 스마트폰과 라즈베리파이 사이의 블루투스(UART)통신을 위한 UUID입니다.<br>
-```
-    private class GyroscopeListener implements SensorEventListener {
-
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-
-            double gyroX = event.values[0];
-            double gyroY = event.values[1];
-            double gyroZ = event.values[2];
-            
-            dt = (event.timestamp - timestamp) * NS2S;
-            timestamp = event.timestamp;
-
-            if (dt - timestamp*NS2S != 0) {
-
-                pitch = pitch + gyroY*dt;
-                roll = roll + gyroX*dt;
-                yaw = yaw + gyroZ*dt;
-
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
-    }<br>
-```
+https://github.com/bsiyoung/interactive_pyramid_hologram/blob/2aa3d446373515dce5667c9459ff61fa5a3dd72c/android_app/MainActivity.java#L175-L216<br>
 각 축의 각속도 성분을 받고, 각속도를 적분하여 회전각을 추출하기 위해 적분 간격(dt)을 구한다.<br>
 각속도 성분을 적분 -> 회전각(pitch, roll)으로 변환한다. <br>
 여기까지의 pitch, roll의 단위는 '라디안'이다. 아래 로그 출력부분에서 멤버변수 'RAD2DGR'를 곱해주어 degree로 변환해준다. <br>
- 
+
 `* dt : 센서가 현재 상태를 감지하는 시간 간격`<br>
 `* NS2S : nano second -> second `
 
