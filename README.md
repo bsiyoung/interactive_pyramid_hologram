@@ -7,6 +7,9 @@
 ## System Structure
 <img src="https://user-images.githubusercontent.com/39472306/208497367-192fdc5a-169c-4ba7-a09a-bb8eae7ae46d.png" width="600" height="350"/>
 
+## Development schedule
+![image](https://user-images.githubusercontent.com/93969640/208679531-b07d7fe9-af76-4f91-8083-790b0fa58f81.png)
+
 ## Modules
 <details>
 <summary>3D Renderer</summary>
