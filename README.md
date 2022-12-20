@@ -95,6 +95,22 @@ q : 프로그램 종료
 2. 자이로센서로 읽어들인 데이터 값을 write함수를 통하여 값을 연속적으로 바로 전달하려고 했지만 제대로 된 값이 나오지 않았다. 
   ->버튼을 한번 누를때마다 데이터값이 갱신되어 한번씩 보내진다.
 
-3. 
+
+### Improvement
+1. 라즈베리파이에서 값을 1바이트씩 읽기때문에 pitch, roll, yaw값을 A,B,C와 같은 문자열로 구분해서 보내주었다.
+
+### Ui Flow
+
+[블루투스 ON 클릭시]
+![image](https://user-images.githubusercontent.com/93969640/208674914-74de2574-13d4-4b44-bfdd-f9085bf88235.png)
+
+[허용]
+![image](https://user-images.githubusercontent.com/93969640/208675074-1abc6dc5-a51d-42bb-8784-8d09961468b2.png)
+상태를 나타내는 텍스트에딧이 활성화로 바뀜.
+
+[연결버튼]
+![image](https://user-images.githubusercontent.com/93969640/208675103-60497989-aa14-4e32-a5e9-2b3d9e17909d.png)
+
+![image](https://user-images.githubusercontent.com/93969640/208675352-04efff0c-c3f3-4e0b-b05e-839e3c25c60d.png)
 
 </details>
