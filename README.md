@@ -48,6 +48,7 @@ GLFW와 OpenGL을 사용해 윈도우를 생성하고 피라미드 홀로그램�
 
 <img src="https://user-images.githubusercontent.com/39472306/208679937-336b8c62-8395-4678-a26c-747c1146ffe0.png)" width="500" height="333"/>
 Callback 함수를 사용해 사용자의 키보드 입력을 받아들인다(수동 오브젝트 조작 & 프로그램 종료).
+  
 |Key|동작|
 |------|---|
 |Q|Quit|
