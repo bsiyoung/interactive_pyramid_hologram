@@ -1,6 +1,6 @@
 # Interactive Pyramid Hologram
 <img src="https://user-images.githubusercontent.com/39472306/208486988-b94a9edf-2f89-4494-9d59-0e5b670b0c8d.jpg" width="500" height="333" align="center"/>
-이 프로젝트는 라즈베리파이와 각종 센서들을 사용해 피라미드 홀로그램의 형상을 실시간으로 제어하는 것을 목표로 한다. 제
+이 프로젝트는 라즈베리파이와 각종 센서들을 사용해 피라미드 홀로그램의 형상을 실시간으로 제어하는 것을 목표로 한다.
 
 피라미드 홀로그램 제작 방법 : [Youtube](https://www.youtube.com/watch?v=FnUrI_3LBuc)
 
@@ -27,7 +27,8 @@ pip install -r requirements.txt
 
 2. Run 3d_renderer as sudo
 ```
-sudo python run.py
+sudo -i
+python run.py
 ```
 
 #### Fix Bugs
@@ -51,9 +52,7 @@ export MESA_GL_VERSION_OVERRIDE=3.3
 1. 메인 스레드
 https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/run.py#L106
 
-    GLFW와 OpenGL을 사용해 윈도우를 생성하고 피라미드 홀로그램에 사용되는 영상 형식대로 3D 오브젝트의 앞, 뒤, 양옆 모습을 렌더링한다.
-
-    Callback 함수를 사용해 사용자의 키보드 입력을 받아들인다(수동 오브젝트 조작 & 프로그램 종료).
+    GLFW와 OpenGL을 사용해 윈도우를 생성하고 피라미드 홀로그램에 사용되는 영상 형식대로 3D 오브젝트의 앞, 뒤, 양옆 모습을 렌더링한다. Callback 함수를 사용해 사용자의 키보드 입력을 받아들인다.
   
     |Key|동작|
     |------|---|
