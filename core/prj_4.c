@@ -33,7 +33,7 @@
 #define BAUD_RATE 115200
 static const char* UART2_DEV = "/dev/ttyAMA1";
 
-int mode = 0;
+int mode = 1;
 int model_no = 0;
 
 //메시지 큐 식별자
@@ -369,19 +369,19 @@ int main() {
                 if (x == 'A') { //문자열에 A가 오면 pitch전송
                     pitch = atoi(ReadBuf);
                     printf("pitch:%d",pitch);
-                    sendData(1, pitch);
+                    sendData(TYPE_PITCH, pitch);
                     ReadBuf[0] = '\0';
                     idx = 0;
                 } else if (x == 'B') { //문자열에 B가 오면 roll전송
                     roll = atoi(ReadBuf);
                      printf("roll:%d",roll);
-                    sendData(2, roll);
+                    sendData(TYPE_ROLL, roll);
                     ReadBuf[0] = '\0';
                     idx = 0;
                 } else if (x == 'C') { //문자열에 C가 오면 yaw전송
                     yaw = atoi(ReadBuf);
                      printf("yaw:%d\n",yaw);
-                    sendData(3, yaw);
+                    sendData(TYPE_YAW, yaw);
                     ReadBuf[0] = '\0';
                     //zoom 구현 안됐을 시 아래 idx = 0; 을 idx = -1;로 수정하면 돼요 
                     idx = 0;

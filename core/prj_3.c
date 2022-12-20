@@ -182,13 +182,13 @@ void *func_thread() {
 
     int cnt = 0;
     while(mode != -1) {
-        printf("mode : %d\n", mode);
+        //printf("mode : %d\n", mode);
         if(mode == 0) {
             #ifdef _DEBUG_
             //printf("Wired Sensor Mode \n");
             #endif
             
-            /*
+          
             // Zoom
             //==================================================
             zoom = getSonicSens();
@@ -214,7 +214,7 @@ void *func_thread() {
             pitch = getRotateSens(2);
             sendData(TYPE_PITCH, (int)(pitch *10));
             delay(50);
-            */ //센서 연결이 안되어있으면 무한반복을 돌기 때문에 주석처리
+            //센서 연결이 안되어있으면 무한반복을 돌기 때문에 주석처리
            
             #ifdef _DEBUG_
             //printf("Wired Sensor | sonic %f | roll %f | pitch %f \n", zoom, roll, pitch);
@@ -224,7 +224,7 @@ void *func_thread() {
             getBluetooth();
             delay(50); //
         }
-        sleep(2);
+        
     }
     
     #ifdef _DEBUG_
@@ -290,7 +290,7 @@ int main() {
         printf("Input Mode : %s \n", (mode == 0) ? "Wired Sensor" : "Bluetooth");
         printf("Model No.%d \n", model_no);
         printf("─────────────────────────────────────── \n");
-        printf("M : Toggle Mode, 0~9 : Select Model \n");
+        printf("M : Toggle Mode, 1~3 : Select Model \n");
         printf("─────────────────────────────────────── \n");
         printf("Select Menu : ");
         ch = getchar();
