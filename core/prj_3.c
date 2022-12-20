@@ -290,7 +290,7 @@ int main() {
         printf("Input Mode : %s \n", (mode == 0) ? "Wired Sensor" : "Bluetooth");
         printf("Model No.%d \n", model_no);
         printf("─────────────────────────────────────── \n");
-        printf("M : Toggle Mode, 1~3 : Select Model \n");
+        printf("M : Toggle Mode, 0~2 : Select Model \n");
         printf("─────────────────────────────────────── \n");
         printf("Select Menu : ");
         ch = getchar();
