@@ -102,14 +102,14 @@ q : 프로그램 종료
 ### Ui Flow
 
 [블루투스 ON 클릭시]<br>
-<img src="[https://user-images.githubusercontent.com/51365114/119627750-716f3100-be47-11eb-8e83-686b23c2c161.png](https://user-images.githubusercontent.com/93969640/208674914-74de2574-13d4-4b44-bfdd-f9085bf88235.png)  width="50" height="100"/><br>
+![블루투스연결1](https://user-images.githubusercontent.com/93969640/208677459-cd869581-c108-42d5-9302-cb0bc92438a8.jpg)<br>
 [허용]<br>
-![image](https://user-images.githubusercontent.com/93969640/208675074-1abc6dc5-a51d-42bb-8784-8d09961468b2.png)<br>
+![블루투스연결2](https://user-images.githubusercontent.com/93969640/208677474-f48ccb94-7ce8-463a-848a-4fdb4ff68ccf.jpg)<br>
 상태를 나타내는 텍스트에딧이 활성화로 바뀜.<br>
 
 [연결버튼]<br>
-![image](https://user-images.githubusercontent.com/93969640/208675103-60497989-aa14-4e32-a5e9-2b3d9e17909d.png)<br>
+![블루투스연결3](https://user-images.githubusercontent.com/93969640/208677493-bf786347-bd08-4d98-be38-fd48be8b068b.jpg)<br>
 
-![image](https://user-images.githubusercontent.com/93969640/208675352-04efff0c-c3f3-4e0b-b05e-839e3c25c60d.png)<br>
+![블루투스연결오류](https://user-images.githubusercontent.com/93969640/208677522-202399db-c5ff-46e8-b383-e0069deea415.jpg)<br>
 
 </details>
