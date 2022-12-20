@@ -1,18 +1,21 @@
 # Interactive Pyramid Hologram
-<img src="https://user-images.githubusercontent.com/39472306/208486988-b94a9edf-2f89-4494-9d59-0e5b670b0c8d.jpg" width="500" height="333"/>
+<img src="https://user-images.githubusercontent.com/39472306/208486988-b94a9edf-2f89-4494-9d59-0e5b670b0c8d.jpg" width="500" height="333" align="center"/>
 이 프로젝트는 라즈베리파이와 각종 센서들을 사용해 피라미드 홀로그램의 형상을 실시간으로 제어하는 것을 목표로 한다. 제
 
 피라미드 홀로그램 제작 방법 : [Youtube](https://www.youtube.com/watch?v=FnUrI_3LBuc)
 
 ## System Structure
-<img src="https://user-images.githubusercontent.com/39472306/208497367-192fdc5a-169c-4ba7-a09a-bb8eae7ae46d.png" width="600" height="350"/>
+<img src="https://user-images.githubusercontent.com/39472306/208497367-192fdc5a-169c-4ba7-a09a-bb8eae7ae46d.png" width="600" height="350" align="center"/>
 
 ## Modules
 <details>
 <summary>3D Renderer</summary>
 
 ### 3d_renderer
+<img src="https://user-images.githubusercontent.com/39472306/208679937-336b8c62-8395-4678-a26c-747c1146ffe0.png" width="500" height="333" align="center"/>
+  
 OpenGL을 사용해 3차원 입체 영상을 피라미드 홀로그램에 사용되는 형식으로 실시간 렌더링한다.
+  
 #### Steps To Run 3d_renderer
 1. Install packages
 ```
@@ -45,8 +48,24 @@ export MESA_GL_VERSION_OVERRIDE=3.3
 1. 메인 스레드
 https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/run.py#L106
 
+    GLFW와 OpenGL을 사용해 윈도우를 생성하고 피라미드 홀로그램에 사용되는 영상 형식대로 3D 오브젝트의 앞, 뒤, 양옆 모습을 렌더링한다.
+
+    Callback 함수를 사용해 사용자의 키보드 입력을 받아들인다(수동 오브젝트 조작 & 프로그램 종료).
+  
+    |Key|동작|
+    |------|---|
+    |Q|Quit|
+    |Z|Zoom Out|
+    |X|Zoom In|
+    |W/S|X축 회전|
+    |E/D|Y축 회전|
+    |R/F|Z축 회전|
+  
 2. IPC 통신 스레드
 https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472403f88236e39f6535c63b5/3d_renderer/ipc_msgq.py#L14
+  
+    백그라운드에서 실행되는 스레드. POSIX IPC Message Queue를 사용해 Core 프로그램에서 전송하는 데이터를 받아들여 처리한다.
+
 </details>
 
 <details>
