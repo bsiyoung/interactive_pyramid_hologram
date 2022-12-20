@@ -102,7 +102,7 @@ q : 프로그램 종료
 ### Ui Flow
 
 [블루투스 ON 클릭시]<br>
-<img src="[https://user-images.githubusercontent.com/51365114/119627750-716f3100-be47-11eb-8e83-686b23c2c161.png](https://user-images.githubusercontent.com/93969640/208674914-74de2574-13d4-4b44-bfdd-f9085bf88235.png)  width="200" height="400"/><br>
+<img src="[https://user-images.githubusercontent.com/51365114/119627750-716f3100-be47-11eb-8e83-686b23c2c161.png](https://user-images.githubusercontent.com/93969640/208674914-74de2574-13d4-4b44-bfdd-f9085bf88235.png)  width="50" height="100"/><br>
 [허용]<br>
 ![image](https://user-images.githubusercontent.com/93969640/208675074-1abc6dc5-a51d-42bb-8784-8d09961468b2.png)<br>
 상태를 나타내는 텍스트에딧이 활성화로 바뀜.<br>
