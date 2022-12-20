@@ -72,6 +72,8 @@ q : 프로그램 종료
 
 <details>
 <summary>Android App</summary>
+
+  
 ### Andorid APP
 휴대폰의 내장된 자이로센서 값을 자이로센서 api를 통하여 값을 받아온다. 값을 받아온후 적절히 데이터 파싱을 하여 블루투스(Uart)통신을 이용하여 라즈베리파이에 값을 전달한다.
 
