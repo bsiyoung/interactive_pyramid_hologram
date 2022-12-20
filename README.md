@@ -2,6 +2,8 @@
 <img src="https://user-images.githubusercontent.com/39472306/208486988-b94a9edf-2f89-4494-9d59-0e5b670b0c8d.jpg" width="500" height="333" align="center"/>
 이 프로젝트는 라즈베리파이와 각종 센서들을 사용해 피라미드 홀로그램의 형상을 실시간으로 제어하는 것을 목표로 한다. 이를 응용하면 3D 게임이나 인테리어 소품 등 시각적인 효과를 주기 위해 사용될 수 있을 것이다.
 
+- 시연 영상 : [Youtube](https://www.youtube.com/watch?v=ODah5b8-UmE)
+
 - 피라미드 홀로그램 제작 방법 : [Youtube](https://www.youtube.com/watch?v=FnUrI_3LBuc)
 
 ## System Structure
