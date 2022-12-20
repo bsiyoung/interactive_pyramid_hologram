@@ -8,7 +8,7 @@
 <img src="https://user-images.githubusercontent.com/39472306/208497367-192fdc5a-169c-4ba7-a09a-bb8eae7ae46d.png" width="600" height="350" align="center"/>
 
 ## Development schedule
-![간트차트](https://user-images.githubusercontent.com/93969640/208680511-df2fba87-9d91-40c8-b3cd-60a45da6248a.jpg)
+<img src="https://user-images.githubusercontent.com/39472306/208686422-0d132637-7632-4ba0-bb15-1aa1ae29ffe6.png" width="600" height="350" align="center"/>
 
 ## Modules
 <details>
