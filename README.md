@@ -7,6 +7,12 @@
 ## System Structure
 <img src="https://user-images.githubusercontent.com/39472306/208497367-192fdc5a-169c-4ba7-a09a-bb8eae7ae46d.png" width="600" height="350" align="center"/>
 
+### Mode 1 (유선 센서 사용)
+라즈베리파이와 유선으로 연결된 센서를 사용해 홀로그램을 제어한다.
+
+### Mode 2 (스마트폰 센서 사용)
+라즈베리파이와 스마트폰을 UART 블루투스 통신으로 연결해 스마트폰의 센서 값을 받아 홀로그램을 제어한다.
+
 ## Development schedule
 <img src="https://user-images.githubusercontent.com/39472306/208686422-0d132637-7632-4ba0-bb15-1aa1ae29ffe6.png" width="600" height="350" align="center"/>
 
@@ -75,7 +81,7 @@ https://github.com/bsiyoung/interactive_pyramid_hologram/blob/3758711d55ba512472
 
 ### Core
 센서와 블루투스로부터 값을 받아 3D renderer 프로세스로 보내고, stdin을 통해 모드를 변경하거나 모델 변경한다.
-### Steps To Run core
+#### Steps To Run core
 1. Compile core
 ```
 gcc -o prj_3 prj_3.c -lm -lrt -lwiringPi -lpthread
@@ -85,7 +91,7 @@ gcc -o prj_3 prj_3.c -lm -lrt -lwiringPi -lpthread
 ```
 sudo ./prj_3
 ```
-### Structure
+#### Structure
   - thread
 표준 입력을 받아 특정 기능을 수행하는 main thread, 센서와 블루투스 값을 받아 3D renderer 프로세스로 값을 보내는 Send thread 두 개의 스레드가 동시에 동작함.<br><br>
 Send thread(함수명 func_thread)안에는 초음파 센서의 값을 읽는 함수 getSonicSens, 가속도 센서의 값을 읽는 함수 getRotateSens, uart 통신을 통해 블루투스의 값을 읽는 getBluetooth, 메시지 큐를 사용하여 IPC 통신을 통해 3D renderer 프로세스로 값을 보내는 sendData가 모두 포함되어있음.<br>
@@ -95,16 +101,16 @@ main thread(main 함수)에서는 반복문 속에서 표준 출력을 통해 �
   - POSIX IPC
 센서로부터 값을 읽어들이는 프로세스에서 3D 렌더링하는 프로세스로 값을 전달 할 때 IPC 통신을 사용하고 방식은 POSIX 메시지큐를 사용함. <br>mq_open을 통해 메시지큐를 생성하고 메시지 큐끼리 공유할 이름을 정의하였음.<br>sendData 함수에서 mq_send를 통해 렌더링 프로세스로 값을 전송할 수 있음.
 
-### Function
+#### Function
 아래의 문자를 입력 후 enter를 누르면 해당 기능을 실행<br><br>
 m : 모드 토글 (센서의 값을 받을지 블루투스의 값을 받을지 변경)<br>
 0~2 : 3D renderer에서 표시하는 모델 변경<br>
 q : 프로그램 종료
 
-### Precautions
+#### Precautions
 초음파 센서가 연결되어 있지 않으면 프로그램이 정상적으로 동작하지 않아 프로그램을 실행할 때는 반드시 초음파 센서가 연결된 상태여야 함.
 
-### Issue
+#### Issue
 블루투스의 값을 읽는 getBluetooth 함수를 완벽하게 구현하지 않아 해당 기능을 이용할 수 없음.
 
 </details>
