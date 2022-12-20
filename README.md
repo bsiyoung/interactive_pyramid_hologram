@@ -104,13 +104,21 @@ q : 프로그램 종료
 
 ### Ui Flow
 
-[블루투스 ON 클릭시]　　　　　　　　　　　　　　　[허용]<br>
+[블루투스 ON 클릭시]　　　　　　　　　 [허용]<br>
 ![블루투스연결1](https://user-images.githubusercontent.com/93969640/208677459-cd869581-c108-42d5-9302-cb0bc92438a8.jpg)
 ![블루투스연결2](https://user-images.githubusercontent.com/93969640/208677474-f48ccb94-7ce8-463a-848a-4fdb4ff68ccf.jpg)<br>
 상태를 나타내는 텍스트에딧이 활성화로 바뀜.<br>
 
-[연결버튼]　　　　　　　　　　　　　　　　　　[오류발생]<br>
+[연결버튼]　　　　　　　　　　　　　　[오류발생]<br>
 ![블루투스연결3](https://user-images.githubusercontent.com/93969640/208677493-bf786347-bd08-4d98-be38-fd48be8b068b.jpg)
 ![블루투스연결오류](https://user-images.githubusercontent.com/93969640/208677522-202399db-c5ff-46e8-b383-e0069deea415.jpg)<br>
+
+### Code
+![image](https://user-images.githubusercontent.com/93969640/208683712-c1cab124-264f-4c7d-bf48-dc77711d0db9.png)<br>
+스마트폰과 라즈베리파이 사이의 블루투스(UART)통신을 위한 UUID입니다.<br>
+![image](https://user-images.githubusercontent.com/93969640/208683913-eec75c8f-b2a5-4b4b-a8c5-e245c899a3bb.png)
+각 축의 각속도 성분을 받고, 각속도를 적분하여 회전각을 추출하기 위해 적분 간격(dt)을 구한다.<br>
+`* dt : 센서가 현재 상태를 감지하는 시간 간격
+* NS2S : nano second -> second `
 
 </details>
