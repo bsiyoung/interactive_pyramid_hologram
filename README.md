@@ -8,10 +8,10 @@
 <img src="https://user-images.githubusercontent.com/39472306/208497367-192fdc5a-169c-4ba7-a09a-bb8eae7ae46d.png" width="600" height="350" align="center"/>
 
 ### Mode 1 (유선 센서 사용)
-라즈베리파이와 유선으로 연결된 센서를 사용해 홀로그램을 제어한다.
+라즈베리파이와 유선으로 연결된 센서를 사용해 홀로그램을 제어한다. 초음파 센서에 측정된 거리에 따라 zoom in/out을, 가속도 센서로 측정된 roll, pitch값에 따라 홀로그램을 회전한다.
 
 ### Mode 2 (스마트폰 센서 사용)
-라즈베리파이와 스마트폰을 UART 블루투스 통신으로 연결해 스마트폰의 센서 값을 받아 홀로그램을 제어한다.
+라즈베리파이와 스마트폰을 UART 블루투스 통신으로 연결해 스마트폰의 센서 값을 받아 홀로그램을 제어한다. 핀치 조작으로 zoom in/out을, 자이로스코프로 측정된 roll, pitch, yaw값에 따라 홀로그램을 회전한다.
 
 ## Development schedule
 <img src="https://user-images.githubusercontent.com/39472306/208686422-0d132637-7632-4ba0-bb15-1aa1ae29ffe6.png" width="600" height="350" align="center"/>
