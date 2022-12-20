@@ -115,11 +115,11 @@ q : 프로그램 종료
 
 ### Code
   
-## UUID
+#### UUID
 ![image](https://user-images.githubusercontent.com/93969640/208683712-c1cab124-264f-4c7d-bf48-dc77711d0db9.png)<br>
 스마트폰과 라즈베리파이 사이의 블루투스(UART)통신을 위한 UUID이다.<br>
   
-## Gyrosensor
+#### Gyrosensor
 ![image](https://user-images.githubusercontent.com/93969640/208683913-eec75c8f-b2a5-4b4b-a8c5-e245c899a3bb.png)<br>
 각 축의 각속도 성분을 받고, 각속도를 적분하여 회전각을 추출하기 위해 적분 간격(dt)을 구한다.<br>
 각속도 성분을 적분 -> 회전각(pitch, roll)으로 변환한다. 
