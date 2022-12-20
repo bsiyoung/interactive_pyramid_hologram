@@ -21,7 +21,7 @@
 <summary>3D Renderer</summary>
 
 ### 3d_renderer
-<img src="https://user-images.githubusercontent.com/39472306/208679937-336b8c62-8395-4678-a26c-747c1146ffe0.png" width="400" height="266" align="center"/>
+<img src="https://user-images.githubusercontent.com/39472306/208679937-336b8c62-8395-4678-a26c-747c1146ffe0.png" width="430" height="266" align="center"/>
   
 OpenGL을 사용해 3차원 입체 영상을 피라미드 홀로그램에 사용되는 형식으로 실시간 렌더링한다.
   
